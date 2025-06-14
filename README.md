@@ -23,27 +23,6 @@
 
 ---
 
-## 🧩 Folder Structure
-
-<details>
-<summary>Click to view</summary>
-
-```
-Employee_Database_Management-my-branch/
-├── package-lock copy.json
-├── package-lock.json
-├── package.json
-├── server.js
-├── .vscode/
-│   ├── settings.json
-├── node_modules/
-│   ├── .bin/
-│   │   ├── color-support, mime, mkdirp, etc...
-```
-</details>
-
----
-
 ## 🚀 How to Run This Project
 
 ### 1. Clone the repository
