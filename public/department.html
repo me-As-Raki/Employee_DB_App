@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departments</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th:first-child, td:first-child {
+            width: 20%;
+        }
+
+        th:last-child, td:last-child {
+            width: 80%;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            box-shadow: 0px 12px 20px rgba(0,0,0,0.4);
+            transform: scale(1.05);
+        }
+
+        .btn-back {
+            background-color: #e91e63;
+        }
+
+        .btn-back:hover {
+            background-color: #d81b60;
+        }
+
+        .btn-add {
+            background-color: #2196F3;
+        }
+
+        .btn-add:hover {
+            background-color: #1e88e5;
+        }
+
+        .btn-delete {
+            background-color: #F44336;
+        }
+
+        .btn-delete:hover {
+            background-color: #e53935;
+        }
+
+        .btn-update {
+            background-color: #FFC107;
+        }
+
+        .btn-update:hover {
+            background-color: #ffb300;
+        }
+
+        .btn-display {
+            background-color: #9c27b0;
+        }
+
+        .btn-display:hover {
+            background-color: #8e24aa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Departments</h1>
+        <table id="departmentsTable">
+            <thead>
+                <tr>
+                    <th>Department ID</th>
+                    <th>Department Name</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn" onclick="window.location.href='/display_employees.html'">Display Employees</button>
+            <button class="btn btn-add" onclick="window.location.href='/add.html'">Add Department</button>
+            <button class="btn btn-delete" onclick="window.location.href='/delete.html'">Delete Department</button>
+            <button class="btn btn-update" onclick="window.location.href='/update.html'">Update Department</button>
+            <button class="btn btn-back" onclick="goBack()">Back</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableBody = document.querySelector('#departmentsTable tbody');
+
+            fetch('/departments')
+                .then(response => response.json())
+                .then(data => {     //This handles the JSON data returned from the server
+                    data.forEach(dept => {
+                        const row = document.createElement('tr');
+                        const idCell = document.createElement('td');
+                        const nameCell = document.createElement('td');
+
+                        idCell.textContent = dept.id;
+                        nameCell.textContent = dept.name;
+
+                        row.appendChild(idCell);
+                        row.appendChild(nameCell);
+
+                        // Add click event to navigate to employees page with department ID
+                        row.addEventListener('click', () => {
+                            window.location.href = `/employees.html?departmentId=${dept.id}`;
+                        });
+
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching departments:', error);//Logs an error message to the console if the fetch request fails
+                });
+        });
+
+        function displayAllEmployees() {
+            window.location.href = '/employees.html';
+        }
+
+        function goBack() {
+            window.location.href = 'http://localhost:3000/redirect.html';
+        }
+    </script>
+</body>
+</html>

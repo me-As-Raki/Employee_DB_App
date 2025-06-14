@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Global styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Login wrapper styles */
+        .login-wrapper {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 400px;
+            max-width: 100%;
+            padding: 40px 30px;
+            text-align: center;
+            animation: slide-in-fwd-center 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        /* Animation for sliding in */
+        @keyframes slide-in-fwd-center {
+            0% {
+                transform: translateZ(-800px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateZ(0);
+                opacity: 1;
+            }
+        }
+
+        /* Logo styles */
+        .logo img {
+            width: 100px;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        /* Form styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            position: relative;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        label .input-container {
+            position: relative;
+            width: 100%;
+        }
+
+        input {
+            width: calc(100% - 40px);
+            padding: 12px;
+            border: none;
+            background-color: #f9f9f9; /* Matching shading background */
+            border-bottom: 1px solid #ddd;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            padding-left: 40px; /* Space for icon */
+        }
+
+        input:focus {
+            border-color: #007bff;
+        }
+
+        .input-container .icon {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+
+        .input-container .icon i {
+            font-size: 18px;
+        }
+
+        /* Eye icon styles */
+        .input-container .eye-icon {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        /* Login button styles */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 200px;
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 48%;
+        }
+
+        .button-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-group .cancel-btn {
+            background-color: #dc3545;
+        }
+
+        .button-group .cancel-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Links and additional styles */
+        .terms {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .terms a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .terms a:hover {
+            color: #0056b3;
+        }
+
+        /* Background color for the entire page */
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper" id="loginWrapper">
+        <div class="logo">
+            <img src="logo.png" alt="Company Logo">
+        </div>
+        <h2>Login as an Admin User</h2>
+        <form action="/login" method="post" onsubmit="return handleLogin(event)">
+            <label for="username">
+                <div class="input-container">
+                    <span class="icon"><i class="fas fa-user"></i></span>
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                </div>
+            </label>
+            <label for="password">
+                <div class="input-container">
+                    <span class="icon"><i class="fas fa-lock"></i></span>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    <span class="eye-icon" onclick="togglePasswordVisibility()"><i id="eyeIcon" class="fas fa-eye"></i></span>
+                </div>
+            </label>
+            <div class="button-group">
+                <button type="submit">Login</button>
+                <button type="button" class="cancel-btn" onclick="clearFields()">Cancel</button>
+            </div>
+        </form>
+        <div class="terms">
+            <a href="#">Terms of use</a> | <a href="#">Privacy policy</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent form submission for demo
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Simulate authentication check
+            if (username === 'admin' && password === 'password123') {
+                // Simulate successful login
+                setTimeout(function() {
+                    window.location.href = 'redirect.html'; // Redirect to redirect.html
+                }, 500); // Simulated delay before redirecting (0.5s)
+            } else {
+                // Display invalid credentials message
+                alert('Invalid username or password');
+            }
+
+            return false; // Prevent form submission for demo
+        }
+
+        function clearFields() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Department</title>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add Department</h1>
+        <form id="addDepartmentForm">
+            <div>
+                <label for="id">Department ID:</label>
+                <input type="text" id="id" name="id" required>
+            </div>
+            <div>
+                <label for="name">Department Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <button type="submit">Add</button>
+                <button type="button" onclick="window.location.href='/department.html'">Back</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('addDepartmentForm').addEventListener('submit', function(event) { //This listener triggers when the form is submitted
+            event.preventDefault();
+            const id = document.getElementById('id').value;
+            const name = document.getElementById('name').value;
+            fetch('/departments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, name })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                window.location.href = '/department.html';
+            })
+            .catch(error => {
+                console.error('Error adding department:', error);
+                alert('Error adding department. Please try again.');
+            });
+        });
+    </script>
+</body>
+</html>

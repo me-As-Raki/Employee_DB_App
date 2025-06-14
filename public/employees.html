@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .btn:hover {
+            background-color: #55a049;
+            box-shadow: 0px 12px 20px rgba(0,0,0,0.4);
+            transform: scale(1.05);
+        }
+
+        .btn-add {
+            background-color: #2196F3;
+        }
+
+        .btn-update {
+            background-color: #FFC107;
+        }
+
+        .btn-delete {
+            background-color: #F44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Employees</h1>
+        <table id="employeesTable">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Employee Name</th>
+                    <th>Salary</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-add" onclick="addEmployee()">Add Employee</button>
+            <button class="btn btn-update" onclick="updateEmployee()">Update Employee</button>
+            <button class="btn btn-delete" onclick="deleteEmployee()">Delete Employee</button>
+            <button class="btn" onclick="goBack()">Back</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchEmployees();
+
+            function fetchEmployees() {
+                const params = new URLSearchParams(window.location.search);
+                const departmentId = params.get('departmentId');
+
+                fetch(`/departments/${departmentId}/employees`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const tableBody = document.querySelector('#employeesTable tbody');
+                        tableBody.innerHTML = '';
+                        data.forEach(emp => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${emp.emp_id}</td>
+                                <td>${emp.name}</td>
+                                <td>${emp.salary}</td>
+                                <td>${emp.address}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    });
+            }
+
+            window.addEmployee = function() {
+                const params = new URLSearchParams(window.location.search);
+                const departmentId = params.get('departmentId');
+                window.location.href = `/addEmployee.html?departmentId=${departmentId}`;
+            }
+
+            window.updateEmployee = function() {
+                window.location.href = 'updateEmployee.html';
+            }
+
+            window.deleteEmployee = function() {
+                window.location.href = 'deleteEmployee.html';
+            }
+
+            window.goBack = function() {
+                const params = new URLSearchParams(window.location.search);
+                const departmentId = params.get('departmentId');
+                window.location.href = `/department.html?id=${departmentId}`;
+            }
+        });
+    </script>
+</body>
+</html>

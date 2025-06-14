@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Department</title>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Update Department</h1>
+        <form id="updateDepartmentForm">
+            <div>
+                <label for="id">Department ID:</label>
+                <input type="text" id="id" name="id" required>
+            </div>
+            <div>
+                <label for="name">New Department Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <button type="submit">Update</button>
+                <button type="button" onclick="window.location.href='/department.html'">Back</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('updateDepartmentForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const id = document.getElementById('id').value;
+            const name = document.getElementById('name').value;
+            fetch(`/departments/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update department');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message);
+                window.location.href = '/department.html';
+            })
+            .catch(error => {
+                console.error('Error updating department:', error);
+                alert('Failed to update department. Department ID might not exist.');
+            });
+        });
+    </script>
+</body>
+</html>

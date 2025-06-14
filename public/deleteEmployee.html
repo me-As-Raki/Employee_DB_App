@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Employee</title>
+    <link rel="stylesheet" href="styles4.css">
+</head>
+<body>
+    <h1>Delete Employee</h1>
+    <div class="container">
+        <form id="deleteEmployeeForm">
+            <label for="empId">Employee ID:</label>
+            <input type="text" id="empId" name="empId" required><br><br>
+            <label for="deptId">Department ID:</label>
+            <input type="text" id="deptId" name="deptId" required><br><br>
+            <button type="submit" class="btn">Delete Employee</button>
+            <button type="button" class="btn btn-secondary" onclick="goBack()">Back</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('deleteEmployeeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const empId = document.getElementById('empId').value;
+            const deptId = document.getElementById('deptId').value;
+
+            if (confirm(`Are you sure you want to delete employee ${empId} from department ${deptId}?`)) {
+                fetch('/employees', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ empId, deptId })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Employee not found');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Employee deleted successfully!');
+                    window.history.back(); // Redirect to previous page
+                })
+                .catch(error => {
+                    console.error('Error deleting employee:', error.message);
+                    alert('Error deleting employee: ' + error.message);
+                });
+            }
+        });
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
