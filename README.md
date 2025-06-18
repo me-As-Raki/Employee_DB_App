@@ -84,5 +84,5 @@ CREATE TABLE employee (
 ---
 ## 🚀 Live Demo
 
-[![Live Demo](https://img.shields.io/badge/🔗%20Live%20App-Visit-blue?style=for-the-badge)]([https://resume-screener-5.onrender.com](https://employee-db-app.onrender.com))
+[![Live Demo](https://img.shields.io/badge/🔗%20Employee%20DB%20App-Live%20Now-green?style=for-the-badge)](https://employee-db-app.onrender.com)
 
